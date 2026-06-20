@@ -5,3 +5,10 @@ entrypoint = "index:app"
 name = "fastapi-example"
 version = "0.1.0"
 requires-python = ">=3.14"
+
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pandas",
+    "scikit-learn"
+]
