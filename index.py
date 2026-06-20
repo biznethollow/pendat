@@ -52,10 +52,9 @@ f1 = f1_score(y_test, prediksi, pos_label='spam', zero_division=0)
 
 @app.get("/email")
 def cek_email(q: str):
-    email = re.search(r"text:\s*'([^']*)'", q)
-    out = email.group(1)
+    email = q
 
-    email_bersih = bersihkan_teks_inggris(out)
+    email_bersih = bersihkan_teks_inggris(email)
     email_tfidf = tfidf.transform([email_bersih])
     hasil = model.predict(email_tfidf)[0]
 
