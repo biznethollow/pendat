@@ -4,6 +4,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from fastapi import FastAPI
+
+app = FastAPI()
 
 df = pd.read_csv("spam_ham_dataset.csv")
 
@@ -47,11 +50,9 @@ presisi = precision_score(y_test, prediksi, pos_label='spam', zero_division=0)
 recall = recall_score(y_test, prediksi, pos_label='spam', zero_division=0)
 f1 = f1_score(y_test, prediksi, pos_label='spam', zero_division=0)
 
-while True:
-    email = input("\nMasukkan isi email (ketik 'exit' untuk keluar): ")
-
-    if email.lower() == "exit":
-        break
+@app.get("/email")
+def cek_email(q: str):
+    email = q
 
     email_bersih = bersihkan_teks_inggris(email)
     email_tfidf = tfidf.transform([email_bersih])
@@ -60,6 +61,6 @@ while True:
     print(f"Hasil Prediksi : {hasil}")
 
     if hasil == "spam":
-        print("Email terindikasi SPAM")
+        return "Email terindikasi SPAM"
     else:
-        print("Email BUKAN spam")
+        return "Email BUKAN spam"
